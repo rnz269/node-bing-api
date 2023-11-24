@@ -14,6 +14,7 @@ let workQueue = new Queue("work", REDIS_URL);
 
 // Kick off a new job by adding it to the work queue
 app.post("/job", async (req, res) => {
+  console.log(`redis url: ${REDIS_URL}`);
   console.log(`req: ${req}`);
   const body = req.body || {};
   console.log(`Received job with body ${JSON.stringify(body)}`);
@@ -29,12 +30,14 @@ app.post("/job", async (req, res) => {
       throw invalidError;
     }
 
+    console.log("adding job");
     // This would be where you could pass arguments to the job
     // Ex: workQueue.add({ url: 'https://www.heroku.com' })
     // Docs: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd
     let job = await workQueue.add({
       body,
     });
+    console.log(`added job: ${job.id}`);
     res.json({ id: job.id });
   } catch (e) {
     error = e;

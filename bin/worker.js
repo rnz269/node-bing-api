@@ -53,10 +53,12 @@ let workers = process.env.WEB_CONCURRENCY || 2;
 let maxJobsPerWorker = 50;
 
 function start() {
+  console.log("Starting worker...");
   // Connect to the named work queue
   let workQueue = new Queue("work", REDIS_URL);
 
   workQueue.process(maxJobsPerWorker, async (job) => {
+    console.log("processing job");
     // Access the body argument
     const body = job.data.body;
 

@@ -54,6 +54,7 @@ let maxJobsPerWorker = 50;
 
 function start() {
   console.log("Starting worker...");
+  console.log(`redis url: ${REDIS_URL}`);
   // Connect to the named work queue
   let workQueue = new Queue("work", REDIS_URL);
 
